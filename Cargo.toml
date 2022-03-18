@@ -3,9 +3,21 @@ name = "ts3-checker-rs"
 version = "1.0.0"
 edition = "2021"
 
+[profile.release]
+opt-level = 3
+lto = true
+strip = true
+
+[profile.dev]
+opt-level = 0
+
+[[bin]]
+name = "ts3checker"
+path = "src/main.rs"
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-rocket = "0.4.10"
+rocket = "0.5.0-rc.1"
 dotenv = "0.15.0"
-tokio = "1.17.0"
+tokio = { version = "1.17.0", features = ["rt-multi-thread", "macros"] }
