@@ -7,3 +7,5 @@ edition = "2021"
 
 [dependencies]
 rocket = "0.4.10"
+dotenv = "0.15.0"
+tokio = "1.17.0"
