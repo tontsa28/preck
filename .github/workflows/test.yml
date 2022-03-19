@@ -1,6 +1,11 @@
 name: ts3-checker-rs test CI
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: "Manual CI build run"
+        required: false
   pull_request:
     branches: [ main ]
 
