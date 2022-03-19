@@ -10,9 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install lld linker
-        run: sudo apt install lld
-
       - name: Install x86_64 rustup target
         run: rustup target add x86_64-unknown-linux-gnu
 
