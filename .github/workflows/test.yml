@@ -8,7 +8,19 @@ jobs:
   test:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Check if rust is installed
-        run: rustc --version
+      - name: Install lld linker
+        run: apt install lld
+
+      - name: Install x86_64 rustup target
+        run: rustup target add x86_64-unknown-linux-gnu
+
+      - name: Install aarch64 rustup target
+        run: rustup target add aarch64-unknown-linux-gnu
+
+      - name: Build project for x86_64
+        run: cargo build --release --target=x86_64-unknown-linux-gnu
+
+      - name: Build project for aarch64
+        run: cargo build --release --target=aarch64-unknown-linux-gnu
