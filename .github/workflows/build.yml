@@ -1,0 +1,13 @@
+name: ts3-checker-rs CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+
+        run: rustc --version
