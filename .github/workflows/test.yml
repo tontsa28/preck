@@ -1,7 +1,6 @@
 name: ts3-checker-rs test CI
 
-on:
-  workflow_dispatch
+on: workflow_dispatch
   pull_request:
     branches: [ main ]
 
