@@ -1,0 +1,38 @@
+name: ts3-checker-rs build CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install aarch64 cross-compiler
+        run: sudo apt update && sudo apt install gcc-aarch64-linux-gnu -y
+
+      - name: Install x86_64 rustup target
+        run: rustup target add x86_64-unknown-linux-gnu
+
+      - name: Install aarch64 rustup target
+        run: rustup target add aarch64-unknown-linux-gnu
+
+      - name: Build project for x86_64
+        run: cargo build --release --target=x86_64-unknown-linux-gnu
+
+      - name: Build project for aarch64
+        run: cargo build --release --target=aarch64-unknown-linux-gnu
+
+      - name: Upload x86_64 binary
+        uses: actions/upload-artifact@v3
+        with:
+          name: ts3checker-x86_64
+          path: target/x86_64-unknown-linux-gnu/release/ts3checker
+
+      - name: Upload aarch64 binary
+        uses: actions/upload-artifact@v3
+        with:
+          name: ts3checker-aarch64
+          path: target/aarch64-unknown-linux-gnu/release/ts3checker
