@@ -11,13 +11,19 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Update the CI system & remove old compilers
-        run: sudo apt update && sudo apt remove gcc g++ && sudo apt autoremove
+        run: sudo apt update
 
       - name: Install x86_64 compiler
         run: sudo apt install gcc-10 -y
 
       - name: Install aarch64 cross-compiler
         run: sudo apt install gcc-10-aarch64-linux-gnu -y
+
+      - name: Symlink x86_64 compiler
+        run: sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 10
+
+      - name: Symlink aarch64 compiler
+        run: sudo update-alternatives --install /usr/bin/gcc-aarch64-linux-gnu gcc-aarc64-linux-gnu /usr/bin/gcc-10-aarch64-linux-gnu 10
 
       - name: Install x86_64 rustup target
         run: rustup target add x86_64-unknown-linux-gnu
