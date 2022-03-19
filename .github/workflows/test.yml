@@ -1,11 +1,6 @@
 name: ts3-checker-rs test CI
 
 on:
-  workflow_dispatch:
-    inputs:
-      tags:
-        description: "Manual CI build run"
-        required: false
   pull_request:
     branches: [ main ]
 
@@ -15,8 +10,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Fix missing packages
+        run: sudo apt install --fix-missing
+
       - name: Install aarch64 cross-compiler
-        run: sudo apt install gcc-aarch64-linux-gnu -y --fix-missing
+        run: sudo apt install gcc-aarch64-linux-gnu -y
 
       - name: Install x86_64 rustup target
         run: rustup target add x86_64-unknown-linux-gnu
