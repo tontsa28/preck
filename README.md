@@ -3,7 +3,10 @@ This is a small tool for checking if TeamSpeak server is running. The tool can b
 
 DISCLAIMER: this tool ONLY works on UNIX-like operating systems, such as Linux distributions and MacOS (MacOS has not been tested). This does not work on NT-based operating systems like Windows because of the process detection.
 
+If you want to get any CPU architecture supported in the precompiled binaries, feel free to open an issue and I'll take a look into it. Currently, `x86_64` and `aarch64` are supported, but the program should compile fine on other architectures as well.
+
 ## Usage
+NOTE: `.env` file must be present at runtime. `Rocket.toml` must be specified if the default settings need to be modified. Both files must exists in the same path.
 You can create your own `.env` file in which you can then store your `PIDFILE` variable. In case you are not familiar with `.env` files, the syntax is very simple:
 - `PIDFILE="/the/path/to/your/pidfile"`
 - For example: `PIDFILE="/home/user/teamspeak-server/ts3server.pid"`
