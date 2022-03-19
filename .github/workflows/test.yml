@@ -10,8 +10,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Update the CI system & remove old compilers
+        run: sudo apt update && sudo apt remove gcc g++ && sudo apt autoremove
+
+      - name: Install x86_64 compiler
+        run: sudo apt install gcc-10 -y
+
       - name: Install aarch64 cross-compiler
-        run: sudo apt update && sudo apt install gcc-aarch64-linux-gnu -y
+        run: sudo apt install gcc-10-aarch64-linux-gnu -y
 
       - name: Install x86_64 rustup target
         run: rustup target add x86_64-unknown-linux-gnu
