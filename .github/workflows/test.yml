@@ -1,11 +1,11 @@
-name: ts3-checker-rs build CI
+name: ts3-checker-rs test CI
 
 on:
-  push:
+  pull_request:
     branches: [ main ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
