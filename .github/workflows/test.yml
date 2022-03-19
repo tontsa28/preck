@@ -10,8 +10,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Check CI system arch
+        run: uname -m
+
+      - name: Update & upgrade CI system
+        run: sudo apt update && sudo apt upgrade -y
+
       - name: Install aarch64 cross-compiler
-        run: sudo apt install gcc-aarch64-linux-gnu
+        run: sudo apt install gcc-aarch64-linux-gnu -y
 
       - name: Install x86_64 rustup target
         run: rustup target add x86_64-unknown-linux-gnu
