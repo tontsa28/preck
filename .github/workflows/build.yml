@@ -28,9 +28,6 @@ jobs:
       - name: Build project for aarch64
         run: cargo build --release --target=aarch64-unknown-linux-gnu
 
-      - name: Give execution permissions to compiled binaries
-        run: chmod +x target/x86_64-unknown-linux-gnu/release/ts3checker target/aarch64-unknown-linux-gnu/release/ts3checker
-
       - name: Upload x86_64 binary
         uses: actions/upload-artifact@v3
         with:
