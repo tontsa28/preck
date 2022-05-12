@@ -1,5 +1,5 @@
-# ts3-checker-rs
-This is a small tool for checking if TeamSpeak server is running. The tool can be used for such things as helper for an uptime monitor. This is an improved Rust rewrite of [this project](https://github.com/tontsa28/ts3-checker).
+# pid-checker
+This is a small tool for checking if a pid file exists. The tool can be used for such things as helper for an uptime monitor. This is an improved Rust rewrite of [this project](https://github.com/tontsa28/ts3-checker).
 
 DISCLAIMER: this tool ONLY works on UNIX-like operating systems, such as Linux distributions and MacOS (MacOS has not been tested). This does not work on NT-based operating systems like Windows because of the process detection.
 
