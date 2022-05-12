@@ -649,6 +649,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d4fd5641d01c8f18a23da7b6fe29298ff4b55afcccdf78973b24cf3175fee32e"
 
 [[package]]
+name = "pid-checker"
+version = "2.0.0"
+dependencies = [
+ "dotenv",
+ "rocket",
+ "tokio",
+]
+
+[[package]]
 name = "pin-project-lite"
 version = "0.2.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1302,15 +1311,6 @@ name = "try-lock"
 version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "59547bce71d9c38b83d9c0e92b6066c4253371f15005def0c30d9657f50c7642"
-
-[[package]]
-name = "ts3-checker-rs"
-version = "1.0.0"
-dependencies = [
- "dotenv",
- "rocket",
- "tokio",
-]
 
 [[package]]
 name = "ubyte"
