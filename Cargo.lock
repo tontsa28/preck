@@ -744,6 +744,8 @@ dependencies = [
  "dotenv",
  "rocket",
  "tokio",
+ "tracing",
+ "tracing-subscriber",
 ]
 
 [[package]]

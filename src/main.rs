@@ -2,6 +2,7 @@
 use std::path::Path;
 use rocket::http::Status;
 use rocket::routes;
+use tracing::info;
 
 // Root endpoint
 #[get("/")]
@@ -12,20 +13,24 @@ async fn check() -> Status {
     // If pid file exists
     if Path::new(&pid).exists() {
         // Return code 200
-        println!("TS3 server running");
+        info!("Process running");
         Status::Ok
     }
     // If pid file does not exist
     else {
         // Return code 404
-        println!("TS3 server not running");
+        info!("Process not running");
         Status::NotFound
     }
 }
 
 // Main function
-#[tokio::main]
-async fn main() {
+#[rocket::main]
+async fn main() -> Result<(), rocket::Error> {
+    // Initialize tracing subscriber
+    tracing_subscriber::fmt::init();
+
     // Set root endpoint to check function and launch Rocket
-    rocket::build().mount("/", routes![check]).launch().await.unwrap();
+    let _rocket = rocket::build().mount("/", routes![check]).launch().await?;
+    Ok(())
 }
