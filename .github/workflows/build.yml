@@ -1,4 +1,4 @@
-name: ts3-checker-rs build CI
+name: pid-checker build CI
 
 on:
   push:
@@ -31,11 +31,11 @@ jobs:
       - name: Upload x86_64 binary
         uses: actions/upload-artifact@v3
         with:
-          name: ts3checker-x86_64
-          path: target/x86_64-unknown-linux-gnu/release/ts3checker
+          name: pidchecker-x86_64
+          path: target/x86_64-unknown-linux-gnu/release/pidchecker
 
       - name: Upload aarch64 binary
         uses: actions/upload-artifact@v3
         with:
-          name: ts3checker-aarch64
-          path: target/aarch64-unknown-linux-gnu/release/ts3checker
+          name: pidchecker-aarch64
+          path: target/aarch64-unknown-linux-gnu/release/pidchecker

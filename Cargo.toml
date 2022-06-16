@@ -1,6 +1,6 @@
 [package]
-name = "ts3-checker-rs"
-version = "1.0.0"
+name = "pid-checker"
+version = "2.0.0"
 edition = "2021"
 
 [profile.release]
@@ -12,12 +12,13 @@ strip = true
 opt-level = 0
 
 [[bin]]
-name = "ts3checker"
+name = "pidchecker"
 path = "src/main.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-rocket = "0.5.0-rc.1"
+actix-web = "4.1.0"
 dotenv = "0.15.0"
-tokio = { version = "1.17.0", features = ["rt-multi-thread", "macros"] }
+tracing = "0.1.35"
+tracing-subscriber = "0.3.11"
