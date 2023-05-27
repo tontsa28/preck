@@ -1,0 +1,9 @@
+version: "3.9"
+services:
+  pidchecker:
+    image: pid-checker:main
+    environment:
+      - PID_FILE=
+    restart: unless-stopped
+    container_name: pidchecker
+    network_mode: "host"
