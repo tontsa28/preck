@@ -1,41 +1,44 @@
-name: pid-checker build CI
+name: Build and push the Docker container
 
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Update the CI system & install compiler components
-        run: sudo apt update && sudo apt install gcc-10-aarch64-linux-gnu -y
-
-      - name: Symlink x86_64 compiler
-        run: sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 10
-
-      - name: Symlink aarch64 compiler
-        run: sudo update-alternatives --install /usr/bin/aarch64-linux-gnu-gcc aarch64-linux-gnu-gcc /usr/bin/aarch64-linux-gnu-gcc-10 10
-
-      - name: Install aarch64 rustup target
-        run: rustup target add aarch64-unknown-linux-gnu
-
-      - name: Build project for x86_64
-        run: cargo build --release --target=x86_64-unknown-linux-gnu
-
-      - name: Build project for aarch64
-        run: cargo build --release --target=aarch64-unknown-linux-gnu
-
-      - name: Upload x86_64 binary
-        uses: actions/upload-artifact@v3
+      - name: Log in to the container registry
+        uses: docker/login-action@v2
         with:
-          name: pidchecker-x86_64
-          path: target/x86_64-unknown-linux-gnu/release/pidchecker
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.TOKEN }}
 
-      - name: Upload aarch64 binary
-        uses: actions/upload-artifact@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Extract metadata for Docker
+        id: meta
+        uses: docker/metadata-action@v4
         with:
-          name: pidchecker-aarch64
-          path: target/aarch64-unknown-linux-gnu/release/pidchecker
+          images: ghcr.io/${{ github.repository }}
+
+      - name: Build and push the container image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
