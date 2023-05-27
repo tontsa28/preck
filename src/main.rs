@@ -2,7 +2,6 @@ use axum::{http::StatusCode, response::IntoResponse, routing::get, Router, Serve
 use once_cell::sync::Lazy;
 use std::{
     env::{set_var, var},
-    fs::create_dir,
     net::{IpAddr, SocketAddr},
     path::{Path, PathBuf},
 };
@@ -53,15 +52,13 @@ static PID_FILE: Lazy<PathBuf> = Lazy::new(|| {
             let path = Path::new(&path);
 
             // Check if PID_FILE ends in a '/'
-            if !path.ends_with("/") {
-                panic!("PID_FILE should end in a '/'");
+            if !path.is_file() {
+                panic!("PID_FILE does not point to a file");
             }
 
             // Check if PID_FILE exists
             if !path.exists() {
-                if let Err(err) = create_dir(path) {
-                    panic!("PID_FILE does not exist: {err}");
-                }
+                panic!("PID_FILE does not exist");
             }
 
             path.to_path_buf()
