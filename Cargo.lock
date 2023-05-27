@@ -297,7 +297,7 @@ checksum = "478c572c3d73181ff3c2539045f6eb99e5491218eae919370993b890cdbdd98e"
 
 [[package]]
 name = "pid-checker"
-version = "2.0.0"
+version = "3.0.0"
 dependencies = [
  "axum",
  "once_cell",
