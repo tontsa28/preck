@@ -43,7 +43,7 @@ static PORT: Lazy<u16> = Lazy::new(|| {
                 .expect("PORT should be a 16-bit unsigned integer")
         }
         Err(_) => {
-            // Set PORT to 8080
+            // Set PORT to 8081
             set_var("PORT", "8081");
 
             var("PORT")
@@ -96,7 +96,7 @@ async fn main() {
 
     // Create the socket & the router
     let socket = SocketAddr::new(*ADDRESS, *PORT);
-    let router = Router::new().route("/", get(check));
+    let router = Router::new().route("/check", get(check));
 
     // Start the web server
     Server::bind(&socket)
