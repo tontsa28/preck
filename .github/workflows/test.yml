@@ -1,29 +1,27 @@
-name: pid-checker test CI
+name: Run tests
 
 on:
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
+    env:
+      CARGO_REGISTRIES_CRATES_IO_PROTOCOL: sparse
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Update the CI system & install compiler components
-        run: sudo apt update && sudo apt install gcc-10-aarch64-linux-gnu -y
+        run: sudo apt update && sudo apt install gcc-aarch64-linux-gnu -y
 
-      - name: Symlink x86_64 compiler
-        run: sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 10
-
-      - name: Symlink aarch64 compiler
-        run: sudo update-alternatives --install /usr/bin/aarch64-linux-gnu-gcc aarch64-linux-gnu-gcc /usr/bin/aarch64-linux-gnu-gcc-10 10
-
-      - name: Install aarch64 rustup target
+      - name: Install the aarch64 rustup target
         run: rustup target add aarch64-unknown-linux-gnu
 
-      - name: Check project for x86_64
+      - name: Test the x86_64 build
         run: cargo check --target=x86_64-unknown-linux-gnu
 
-      - name: Check project for aarch64
+      - name: Test the aarch64 build
         run: cargo check --target=aarch64-unknown-linux-gnu
