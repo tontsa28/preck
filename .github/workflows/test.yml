@@ -9,7 +9,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      CRATES_IO_PROTOCOL: CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
+      CARGO_REGISTRIES_CRATES_IO_PROTOCOL: sparse
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
