@@ -1,9 +1,9 @@
 version: "3.9"
 services:
   pidchecker:
-    image: pid-checker:main
+    image: preck:main
     environment:
       - PID_FILE=
     restart: unless-stopped
-    container_name: pidchecker
+    container_name: preck
     network_mode: "host"

@@ -1,11 +1,8 @@
 # Use Rust Debian bookworm image as the build image
 FROM rust:slim-bookworm AS build
 
-# Use the new crates.io index protocol
-ENV CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
-
 # Switch work directory & copy backend sources
-WORKDIR /usr/src/pid-checker
+WORKDIR /usr/src/preck
 COPY . .
 
 # Install required dependencies & compile the project
@@ -15,10 +12,10 @@ RUN RUSTFLAGS="-C link-arg=-fuse-ld=mold" cargo build --release
 
 # Copy the critical files into a pure Debian bookworm image
 FROM debian:bookworm-slim
-COPY --from=build /usr/src/pid-checker/target/release/pidchecker /usr/local/bin/pidchecker
+COPY --from=build /usr/src/preck/target/release/preck /usr/local/bin/preck
 
 # Expose ports
 EXPOSE 8081
 
 # Run the web server
-CMD ["pidchecker"]
+CMD ["preck"]

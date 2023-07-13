@@ -1,10 +1,10 @@
 [package]
-name = "pid-checker"
+name = "preck"
 version = "3.0.0"
 edition = "2021"
 
 [[bin]]
-name = "pidchecker"
+name = "preck"
 path = "src/main.rs"
 
 [profile.release]
