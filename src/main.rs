@@ -2,7 +2,7 @@ use axum::{
     http::StatusCode,
     response::{IntoResponse, Response},
     routing::get,
-    Router, Server,
+    Router,
 };
 use once_cell::sync::Lazy;
 use std::{
@@ -10,6 +10,7 @@ use std::{
     net::{IpAddr, SocketAddr},
     path::{Path, PathBuf},
 };
+use tokio::net::TcpListener;
 use tracing::info;
 use tracing_subscriber::util::SubscriberInitExt;
 
@@ -34,6 +35,7 @@ static ADDRESS: Lazy<IpAddr> = Lazy::new(|| {
         }
     }
 });
+
 static PORT: Lazy<u16> = Lazy::new(|| {
     // Check if PORT is set
     match var("PORT") {
@@ -53,6 +55,7 @@ static PORT: Lazy<u16> = Lazy::new(|| {
         }
     }
 });
+
 static PID_FILE: Lazy<PathBuf> = Lazy::new(|| {
     match var("PID_FILE") {
         Ok(path) => {
@@ -67,18 +70,16 @@ static PID_FILE: Lazy<PathBuf> = Lazy::new(|| {
     }
 });
 
+// Check if the PID file exists
 async fn check() -> Response {
     if PID_FILE.exists() {
-        // Return code 200 OK
         StatusCode::OK.into_response()
     } else {
-        // Return code 404 NOT FOUND
         StatusCode::NOT_FOUND.into_response()
     }
 }
 
-/* Use only a single worker thread due to the only task being very lightweight */
-#[tokio::main(flavor = "multi_thread", worker_threads = 1)]
+#[tokio::main(flavor = "multi_thread")]
 async fn main() {
     // Initialize the logging system
     let format = tracing_subscriber::fmt::format()
@@ -96,11 +97,13 @@ async fn main() {
 
     // Create the socket & the router
     let socket = SocketAddr::new(*ADDRESS, *PORT);
+    let listener = TcpListener::bind(socket)
+        .await
+        .expect("Failed to bind TCP listener to given socket");
     let router = Router::new().route("/check", get(check));
 
     // Start the web server
-    Server::bind(&socket)
-        .serve(router.into_make_service())
+    axum::serve(listener, router)
         .with_graceful_shutdown(async {
             tokio::signal::ctrl_c()
                 .await

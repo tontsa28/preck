@@ -1,6 +1,5 @@
-version: "3.9"
 services:
-  pidchecker:
+  preck:
     image: preck:main
     environment:
       - PID_FILE=
