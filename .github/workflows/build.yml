@@ -35,4 +35,4 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ github.actor }}/preck:latest
+          tags: ghcr.io/${{ github.repository }}:latest

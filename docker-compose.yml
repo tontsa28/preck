@@ -5,6 +5,8 @@ services:
       - PID_FILE=
     restart: unless-stopped
     container_name: preck
+    ports:
+    - 80:8081
 
   watchtower:
     image: nickfedor/watchtower
